@@ -7,8 +7,8 @@ import (
 	"strings"
 )
 
-func isPrimitive(t string) bool {
-	et := getRawType(t)
+func IsPrimitive(t string) bool {
+	et := GetRawType(t)
 
 	return et == "string" ||
 		et == "int" ||
@@ -28,20 +28,20 @@ func isPrimitive(t string) bool {
 		et == "byte"
 }
 
-func isSlice(t string) bool {
+func IsSlice(t string) bool {
 	return strings.Contains(t, "[]")
 }
 
-func isRefType(t string) bool {
+func IsRefType(t string) bool {
 	return strings.Contains(t, "*")
 }
 
-func getFileName(path string, name string) string {
+func GetFileName(path string, name string) string {
 	fullPath := filepath.Join(path, fmt.Sprintf("%s.gen.go", strings.ToLower(name)))
 	return fullPath
 }
 
-func getFieldIndicator(source StructField, target StructField) string {
+func GetFieldIndicator(source StructField, target StructField) string {
 	if source.IsPointer == target.IsPointer {
 		return ""
 	}
@@ -53,7 +53,7 @@ func getFieldIndicator(source StructField, target StructField) string {
 	return "&"
 }
 
-func getRawType(t string) string {
+func GetRawType(t string) string {
 	out := t
 
 	out = strings.ReplaceAll(out, "*", "")
@@ -63,7 +63,7 @@ func getRawType(t string) string {
 	return out
 }
 
-func stripPackageName(name string) string {
+func StripPackageName(name string) string {
 	elements := strings.Split(name, ".")
 
 	if len(elements) > 1 {
@@ -72,7 +72,7 @@ func stripPackageName(name string) string {
 	return name
 }
 
-func extractPackageName(name string) string {
+func ExtractPackageName(name string) string {
 	elements := strings.Split(name, ".")
 
 	if len(elements) > 1 {
@@ -81,11 +81,11 @@ func extractPackageName(name string) string {
 	return name
 }
 
-func isFullyQualifiedPackage(name string) bool {
+func IsFullyQualifiedPackage(name string) bool {
 	return strings.Contains(name, ".")
 }
 
-func sourceObjectContainsField(name string, graph Struct) bool {
+func SourceObjectContainsField(name string, graph Struct) bool {
 	for _, f := range graph.Fields {
 		if f.Name == name {
 			return true
@@ -95,7 +95,7 @@ func sourceObjectContainsField(name string, graph Struct) bool {
 	return false
 }
 
-func objectSliceContainsName(name string, graph []Struct) *Struct {
+func ObjectSliceContainsName(name string, graph []Struct) *Struct {
 	for _, o := range graph {
 		if strings.ToLower(o.Name) == strings.ToLower(name) {
 			return &o
@@ -105,7 +105,7 @@ func objectSliceContainsName(name string, graph []Struct) *Struct {
 	return nil
 }
 
-func getSourceField(name string, graph Struct) *StructField {
+func GetSourceField(name string, graph Struct) *StructField {
 	for _, f := range graph.Fields {
 		if f.Name == name {
 			return &f

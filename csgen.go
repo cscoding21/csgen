@@ -79,9 +79,9 @@ func GetStructs(filePath string) ([]Struct, error) {
 									Name:        name.Name,
 									Type:        fieldType,
 									TagString:   tagString,
-									IsPrimitive: isPrimitive(fieldType),
-									IsPointer:   isRefType(fieldType),
-									IsSlice:     isSlice(fieldType),
+									IsPrimitive: IsPrimitive(fieldType),
+									IsPointer:   IsRefType(fieldType),
+									IsSlice:     IsSlice(fieldType),
 								}
 
 								outStruct.Fields = append(outStruct.Fields, s)
