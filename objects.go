@@ -19,6 +19,7 @@ type StructField struct {
 	IsSlice     bool
 }
 
+// GetTag returns a single tag value by name based on the standard format rules
 func (s StructField) GetTag(name string) string {
 	if len(s.TagString) == 0 {
 		return ""
