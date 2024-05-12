@@ -2,6 +2,7 @@ package csgen
 
 import "strings"
 
+// Struct a struct that abstracts a golang struct
 type Struct struct {
 	Name     string
 	FilePath string
@@ -10,6 +11,7 @@ type Struct struct {
 	Fields   []StructField
 }
 
+// StructField a struct that represents a single field within a struct abstraction
 type StructField struct {
 	Name        string
 	Type        string
