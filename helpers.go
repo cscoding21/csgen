@@ -44,12 +44,12 @@ func isRefType(t string) bool {
 	return strings.Contains(t, "*")
 }
 
-func ietFileName(path string, name string) string {
+func getFileName(path string, name string) string {
 	fullPath := filepath.Join(path, fmt.Sprintf("%s.gen.go", strings.ToLower(name)))
 	return fullPath
 }
 
-func ietFieldIndicator(source StructField, target StructField) string {
+func getFieldIndicator(source StructField, target StructField) string {
 	if source.IsPointer == target.IsPointer {
 		return ""
 	}
@@ -105,7 +105,7 @@ func sourceObjectContainsField(name string, graph Struct) bool {
 
 func objectSliceContainsName(name string, graph []Struct) *Struct {
 	for _, o := range graph {
-		if strings.ToLower(o.Name) == strings.ToLower(name) {
+		if strings.EqualFold(o.Name, name) {
 			return &o
 		}
 	}
