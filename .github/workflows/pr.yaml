@@ -26,6 +26,7 @@ jobs:
       run: |
         go version
         go get -u golang.org/x/lint/golint
+        sudo apt install golint
         
     # Run build of the application
     - name: Run build

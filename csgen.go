@@ -26,7 +26,7 @@ func GetFile(file ...string) string {
 	return filepath.Join(pwd, f)
 }
 
-// return a list of all structs in a given file
+// GetStructs return a list of all structs in a given file
 func GetStructs(filePath string) ([]Struct, error) {
 	// https://magodo.github.io/go-ast-tips/
 	out := []Struct{}
@@ -107,7 +107,7 @@ func ExecuteTemplate[T any](name string, fileTemplate string, om T) string {
 	return doc.String()
 }
 
-// WriteGeneratedFile create a text file with the passed in name and contents
+// WriteGeneratedGoFile create a text file with the passed in name and contents
 func WriteGeneratedGoFile(name string, contents string) error {
 	code, err := format.Source([]byte(contents))
 	if err != nil {
@@ -134,6 +134,7 @@ func WriteGeneratedGoFile(name string, contents string) error {
 	return nil
 }
 
+// NewCSGenBuilderForFile returns a string buider with a common header for generated files
 func NewCSGenBuilderForFile(name string, pkg string) *strings.Builder {
 	builder := strings.Builder{}
 
