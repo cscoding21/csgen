@@ -44,3 +44,12 @@ jobs:
     # Run testing on the code
     - name: Run testing
       run: go test -v
+
+    # Discord notification
+    # https://github.com/marketplace/actions/actions-for-discord
+    - name: Discord notification
+      env:
+        DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+      uses: Ilshidur/action-discord@master
+      with:
+        args: 'The project {{ EVENT_PAYLOAD.repository.full_name }} has been deployed.'
