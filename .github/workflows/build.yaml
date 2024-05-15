@@ -45,6 +45,8 @@ jobs:
     - name: Run testing
       run: go test -v
 
+    # Discord notification
+    # https://github.com/marketplace/actions/actions-for-discord
     - name: Discord notification
       env:
         DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
