@@ -91,7 +91,7 @@ func GetStructs(filePath string) ([]Struct, error) {
 	return out, nil
 }
 
-// GetVariables
+// GetVariables returns a list of all variable definitions in a given file
 func GetVariables(filePath string) ([]StructField, error) {
 	out := []StructField{}
 
