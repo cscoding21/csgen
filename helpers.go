@@ -45,6 +45,8 @@ func isRefType(t string) bool {
 }
 
 func getFileName(path string, name string) string {
+	name = strings.TrimSuffix(name, filepath.Ext(name))
+
 	fullPath := filepath.Join(path, fmt.Sprintf("%s.gen.go", strings.ToLower(name)))
 	return fullPath
 }
@@ -77,6 +79,7 @@ func stripPackageName(name string) string {
 	if len(elements) > 1 {
 		return elements[1]
 	}
+
 	return name
 }
 
@@ -86,7 +89,8 @@ func extractPackageName(name string) string {
 	if len(elements) > 1 {
 		return elements[0]
 	}
-	return name
+
+	return ""
 }
 
 func isFullyQualifiedPackage(name string) bool {
@@ -103,20 +107,10 @@ func sourceObjectContainsField(name string, graph Struct) bool {
 	return false
 }
 
-func objectSliceContainsName(name string, graph []Struct) *Struct {
+func getStructByName(name string, graph []Struct) *Struct {
 	for _, o := range graph {
-		if strings.EqualFold(o.Name, name) {
+		if strings.EqualFold(o.Name, strings.Trim(name, " ")) {
 			return &o
-		}
-	}
-
-	return nil
-}
-
-func getSourceField(name string, graph Struct) *StructField {
-	for _, f := range graph.Fields {
-		if f.Name == name {
-			return &f
 		}
 	}
 
