@@ -23,3 +23,6 @@ go.work
 # Ignore all go generated files
 **/*.gen.go
 
+# Ignore coverage test results
+c.out
+

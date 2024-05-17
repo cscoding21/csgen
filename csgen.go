@@ -91,6 +91,98 @@ func GetStructs(filePath string) ([]Struct, error) {
 	return out, nil
 }
 
+// GetVariables
+func GetVariables(filePath string) ([]StructField, error) {
+	out := []StructField{}
+
+	f, err := getAst(filePath)
+	if err != nil {
+		fmt.Println(err)
+		return out, err
+	}
+
+	for _, d := range f.Decls {
+		switch decl := d.(type) {
+		case *ast.GenDecl:
+			for _, spec := range decl.Specs {
+				switch spec := spec.(type) {
+				case *ast.ValueSpec:
+					for _, id := range spec.Names {
+						thisVar := StructField{
+							Name:        id.Name,
+							Type:        types.ExprString(spec.Type),
+							TagString:   "",
+							IsPrimitive: isPrimitive(types.ExprString(spec.Type)),
+							IsPointer:   isRefType(types.ExprString(spec.Type)),
+							IsSlice:     isSlice(types.ExprString(spec.Type)),
+						}
+
+						out = append(out, thisVar)
+					}
+				default:
+					fmt.Printf("Unknown token type: %s\n", decl.Tok)
+				}
+			}
+		default:
+			fmt.Printf("Unknown declaration %v\n", decl.Pos())
+		}
+	}
+
+	return out, nil
+}
+
+// GetImports returns all of the imports in a given file
+func GetImports(filePath string) ([]string, error) {
+	out := []string{}
+
+	f, err := getAst(filePath)
+	if err != nil {
+		fmt.Println(err)
+		return out, err
+	}
+
+	for _, d := range f.Decls {
+		switch decl := d.(type) {
+		case *ast.GenDecl:
+			for _, spec := range decl.Specs {
+				switch spec := spec.(type) {
+				case *ast.ImportSpec:
+					out = append(out, spec.Path.Value)
+				default:
+					fmt.Printf("Unknown token type: %s\n", decl.Tok)
+				}
+			}
+		default:
+			fmt.Printf("Unknown declaration %v\n", decl.Pos())
+		}
+	}
+
+	return out, nil
+}
+
+// GetFunctions returns all of the functions in a given file
+func GetFunctions(filePath string) ([]string, error) {
+	out := []string{}
+
+	f, err := getAst(filePath)
+	if err != nil {
+		fmt.Println(err)
+		return out, err
+	}
+
+	for _, d := range f.Decls {
+		switch decl := d.(type) {
+		case *ast.FuncDecl:
+			fmt.Printf("Func: %s\n", decl.Name.Name)
+			out = append(out, decl.Name.Name)
+		default:
+			fmt.Printf("Unknown declaration %v\n", decl.Pos())
+		}
+	}
+
+	return out, nil
+}
+
 // ExecuteTemplate executes a template against a given object and return the output as a string
 func ExecuteTemplate[T any](name string, fileTemplate string, om T) string {
 	tmpl, err := template.New(name).Parse(fileTemplate)
