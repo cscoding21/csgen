@@ -8,8 +8,16 @@ import (
 var MyString string
 var MyInt int
 
-type Interface interface {
-	Foo()
+type MyInterface interface {
+	Fizz()
+}
+
+type MyInterface2 interface {
+	Buzz(input string) (string, error)
+}
+
+type MyInterface3 interface {
+	FizzBuzz() (string, error)
 }
 
 // ---Structs for testing

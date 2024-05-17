@@ -51,6 +51,20 @@ func TestGetImports(t *testing.T) {
 	}
 }
 
+func TestGetInterfaces(t *testing.T) {
+	pwd, _ := os.Getwd()
+	fullPath := filepath.Join(pwd, "test_data.go")
+	interfaces, _ := GetInterfaces(fullPath)
+	expectedImports := 3
+
+	fmt.Println(interfaces)
+
+	//---this is fragile and should be rethought
+	if len(interfaces) != expectedImports {
+		t.Errorf("expected %v interfaces...got %v", expectedImports, len(interfaces))
+	}
+}
+
 func TestGetFields(t *testing.T) {
 	pwd, _ := os.Getwd()
 	fullPath := filepath.Join(pwd, "test_data.go")

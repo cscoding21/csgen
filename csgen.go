@@ -183,6 +183,40 @@ func GetFunctions(filePath string) ([]string, error) {
 	return out, nil
 }
 
+// GetInterfaces get a list of all declared interfaces in a given file
+func GetInterfaces(filePath string) ([]string, error) {
+	out := []string{}
+
+	f, err := getAst(filePath)
+	if err != nil {
+		fmt.Println(err)
+		return out, err
+	}
+
+	for _, d := range f.Decls {
+		switch decl := d.(type) {
+		case *ast.FuncDecl:
+			fmt.Println("Func")
+		case *ast.GenDecl:
+			for _, spec := range decl.Specs {
+				switch spec := spec.(type) {
+				case *ast.TypeSpec:
+					switch spec.Type.(type) {
+					case *ast.InterfaceType:
+						out = append(out, spec.Name.String())
+					}
+				default:
+					fmt.Printf("Unknown token type: %s\n", decl.Tok)
+				}
+			}
+		default:
+			fmt.Printf("Unknown declaration %v\n", decl.Pos())
+		}
+	}
+
+	return out, nil
+}
+
 // ExecuteTemplate executes a template against a given object and return the output as a string
 func ExecuteTemplate[T any](name string, fileTemplate string, om T) string {
 	tmpl, err := template.New(name).Parse(fileTemplate)
