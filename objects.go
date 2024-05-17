@@ -51,7 +51,7 @@ func (s *StructField) GetTag(name string) string {
 	return ""
 }
 
-// ---return a field object of a struct by its name
+// GetField return a field object of a struct by its name
 func (s *Struct) GetField(name string) *StructField {
 	for _, f := range s.Fields {
 		if f.Name == name {
