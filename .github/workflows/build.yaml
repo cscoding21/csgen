@@ -19,7 +19,7 @@ jobs:
     - uses: actions/checkout@v2
     
   build_and_test:
-    uses: cscoding21/github/.github/workflows/go-build.yaml@main
+    uses: cscoding21/cscoding/.github/workflows/go-build.yaml@main
     
 
     # Discord notification
