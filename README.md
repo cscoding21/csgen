@@ -14,6 +14,8 @@
         <img src="https://img.shields.io/discord/1196192809120710779" /></a>&nbsp;
     <a href="https://www.youtube.com/@CommonSenseCoding-ge5dn" alt="YouTube">
         <img src="https://img.shields.io/badge/youtube-watch_videos-red.svg?color=0052FF&labelColor=090422&logo=youtube" /></a>&nbsp;
+    <a href="https://twitter.com/cscoding21" alt="YouTube">
+        <img src="https://img.shields.io/twitter/follow/cscoding21" /></a>&nbsp;
 </p>
 
 
