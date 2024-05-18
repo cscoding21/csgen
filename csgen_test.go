@@ -11,7 +11,7 @@ import (
 
 func TestGetStructs(t *testing.T) {
 	pwd, _ := os.Getwd()
-	fullPath := filepath.Join(pwd, "test_data.go")
+	fullPath := filepath.Join(pwd, "data_test.go")
 	structs, err := GetStructs(fullPath)
 
 	if err != nil {
@@ -31,7 +31,7 @@ func TestGetStructs(t *testing.T) {
 
 func TestGetVars(t *testing.T) {
 	pwd, _ := os.Getwd()
-	fullPath := filepath.Join(pwd, "test_data.go")
+	fullPath := filepath.Join(pwd, "data_test.go")
 	vars, _ := GetVariables(fullPath)
 
 	fmt.Println(vars)
@@ -39,7 +39,7 @@ func TestGetVars(t *testing.T) {
 
 func TestGetImports(t *testing.T) {
 	pwd, _ := os.Getwd()
-	fullPath := filepath.Join(pwd, "test_data.go")
+	fullPath := filepath.Join(pwd, "data_test.go")
 	imports, _ := GetImports(fullPath)
 	expectedImports := 2
 
@@ -53,7 +53,7 @@ func TestGetImports(t *testing.T) {
 
 func TestGetFunctions(t *testing.T) {
 	pwd, _ := os.Getwd()
-	fullPath := filepath.Join(pwd, "test_data.go")
+	fullPath := filepath.Join(pwd, "data_test.go")
 	functions, _ := GetFunctions(fullPath)
 	expectedFunctions := 1
 
@@ -67,7 +67,7 @@ func TestGetFunctions(t *testing.T) {
 
 func TestGetInterfaces(t *testing.T) {
 	pwd, _ := os.Getwd()
-	fullPath := filepath.Join(pwd, "test_data.go")
+	fullPath := filepath.Join(pwd, "data_test.go")
 	interfaces, _ := GetInterfaces(fullPath)
 	expectedImports := 3
 
@@ -81,7 +81,7 @@ func TestGetInterfaces(t *testing.T) {
 
 func TestGetFields(t *testing.T) {
 	pwd, _ := os.Getwd()
-	fullPath := filepath.Join(pwd, "test_data.go")
+	fullPath := filepath.Join(pwd, "data_test.go")
 	structs, _ := GetStructs(fullPath)
 
 	st := structs[0]
@@ -98,7 +98,7 @@ func TestGetFields(t *testing.T) {
 
 func TestGetFieldWithNil(t *testing.T) {
 	pwd, _ := os.Getwd()
-	fullPath := filepath.Join(pwd, "test_data.go")
+	fullPath := filepath.Join(pwd, "data_test.go")
 	structs, _ := GetStructs(fullPath)
 
 	st := structs[0]
@@ -111,7 +111,7 @@ func TestGetFieldWithNil(t *testing.T) {
 
 func TestGetTag(t *testing.T) {
 	pwd, _ := os.Getwd()
-	fullPath := filepath.Join(pwd, "test_data.go")
+	fullPath := filepath.Join(pwd, "data_test.go")
 	structs, _ := GetStructs(fullPath)
 
 	testData := []struct {
