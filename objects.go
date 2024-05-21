@@ -19,6 +19,21 @@ type StructField struct {
 	IsPrimitive bool
 	IsPointer   bool
 	IsSlice     bool
+	IsPublic    bool
+}
+
+type Function struct {
+	Name      string
+	Receiver  *string
+	Arguments []StructField
+	Returns   []StructField
+	IsPublic  bool
+}
+
+type Interface struct {
+	Name     string
+	Methods  []Function
+	IsPublic bool
 }
 
 // GetTag returns a single tag value by name based on the standard format rules

@@ -115,6 +115,7 @@ func GetVariables(filePath string) ([]StructField, error) {
 							IsPrimitive: isPrimitive(types.ExprString(spec.Type)),
 							IsPointer:   isRefType(types.ExprString(spec.Type)),
 							IsSlice:     isSlice(types.ExprString(spec.Type)),
+							IsPublic:    isPublic(id.Name),
 						}
 
 						out = append(out, thisVar)
@@ -161,8 +162,8 @@ func GetImports(filePath string) ([]string, error) {
 }
 
 // GetFunctions returns all of the functions in a given file
-func GetFunctions(filePath string) ([]string, error) {
-	out := []string{}
+func GetFunctions(filePath string) ([]Function, error) {
+	out := []Function{}
 
 	f, err := getAst(filePath)
 	if err != nil {
@@ -173,8 +174,14 @@ func GetFunctions(filePath string) ([]string, error) {
 	for _, d := range f.Decls {
 		switch decl := d.(type) {
 		case *ast.FuncDecl:
-			//fmt.Printf("Func: %s\n", decl.Name.Name)
-			out = append(out, decl.Name.Name)
+			fn := Function{
+				Name:      decl.Name.Name,
+				Arguments: []StructField{},
+				Returns:   []StructField{},
+				IsPublic:  isPublic(decl.Name.Name),
+			}
+
+			out = append(out, fn)
 		default:
 			//fmt.Printf("Unknown declaration %v\n", decl.Pos())
 		}
@@ -184,8 +191,8 @@ func GetFunctions(filePath string) ([]string, error) {
 }
 
 // GetInterfaces get a list of all declared interfaces in a given file
-func GetInterfaces(filePath string) ([]string, error) {
-	out := []string{}
+func GetInterfaces(filePath string) ([]Interface, error) {
+	out := []Interface{}
 
 	f, err := getAst(filePath)
 	if err != nil {
@@ -203,7 +210,24 @@ func GetInterfaces(filePath string) ([]string, error) {
 				case *ast.TypeSpec:
 					switch spec.Type.(type) {
 					case *ast.InterfaceType:
-						out = append(out, spec.Name.String())
+						in := Interface{
+							Name:     spec.Name.Name,
+							Methods:  []Function{},
+							IsPublic: isPublic(spec.Name.Name),
+						}
+
+						// for _, field := range spec.TypeParams.List {
+						// 	fn := Function{
+						// 		Name:      field.Names[0].Name,
+						// 		Arguments: []StructField{},
+						// 		Returns:   []StructField{},
+						// 		IsPublic:  isPublic(field.Names[0].Name),
+						// 	}
+
+						// 	in.Methods = append(in.Methods, fn)
+						// }
+
+						out = append(out, in)
 					}
 				default:
 					//fmt.Printf("Unknown token type: %s\n", decl.Tok)

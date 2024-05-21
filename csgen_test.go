@@ -63,6 +63,12 @@ func TestGetFunctions(t *testing.T) {
 	if len(functions) != expectedFunctions {
 		t.Errorf("expected %v imports...got %v", expectedFunctions, len(functions))
 	}
+
+	for _, fn := range functions {
+		if !fn.IsPublic {
+			t.Errorf("expected function GetStructs...got %v", fn.Name)
+		}
+	}
 }
 
 func TestGetInterfaces(t *testing.T) {
