@@ -165,3 +165,23 @@ func TestGetSructByName(t *testing.T) {
 		}
 	}
 }
+
+func TestIsPublic(t *testing.T) {
+	testData := []struct {
+		ok   bool
+		have string
+		want bool
+	}{
+		{ok: true, have: "TestStruct", want: true},
+		{ok: true, have: "test", want: false},
+		{ok: true, have: "_test", want: false},
+		{ok: true, have: "", want: false},
+		{ok: true, have: "TEST", want: true},
+	}
+
+	for _, input := range testData {
+		if isPublic(input.have) != input.want {
+			t.Errorf("expected true for name %s...got false", input.have)
+		}
+	}
+}

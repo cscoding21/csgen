@@ -5,6 +5,8 @@ import (
 	"go/ast"
 	"go/parser"
 	"go/token"
+	"unicode"
+	"unicode/utf8"
 
 	"path/filepath"
 	"strings"
@@ -42,6 +44,18 @@ func isSlice(t string) bool {
 
 func isRefType(t string) bool {
 	return strings.Contains(t, "*")
+}
+
+func isPublic(t string) bool {
+	if len(t) == 0 {
+		return false
+	}
+
+	// Get the first rune (character) of the string
+	r, _ := utf8.DecodeRuneInString(t)
+
+	// Check if the rune is an uppercase letter
+	return unicode.IsUpper(r)
 }
 
 func getFileName(path string, name string) string {
