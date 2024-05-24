@@ -6,8 +6,9 @@ jobs:
   build_and_test:
     uses: cscoding21/cscoding/.github/workflows/go-build.yaml@main
 
-  bump-version:
+  bump_version:
     if: "!startsWith(github.event.head_commit.message, 'bump:')"
+    needs: build_and_test
     runs-on: ubuntu-latest
     name: "Bump version and create changelog with commitizen"
     steps:
@@ -33,6 +34,7 @@ jobs:
     # Discord notification
     # https://github.com/marketplace/actions/actions-for-discord
     runs-on: ubuntu-latest
+    needs: bump_version
     name: "Create Discord notification"
     steps:
       - name: Discord notification
