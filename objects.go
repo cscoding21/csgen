@@ -22,6 +22,7 @@ type StructField struct {
 	IsPublic    bool
 }
 
+// Function a struct that represents a single function abstraction
 type Function struct {
 	Name      string
 	Receiver  *string
@@ -30,6 +31,7 @@ type Function struct {
 	IsPublic  bool
 }
 
+// Interface a struct that represents a single interface abstraction
 type Interface struct {
 	Name     string
 	Methods  []Function
