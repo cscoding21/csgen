@@ -224,3 +224,16 @@ func TestMyFunc(t *testing.T) {
 	//---this is a placeholder test to appease the code coverage tool.  The function is only used for testing
 	MyFunc()
 }
+
+func TestProfileNode(t *testing.T) {
+	pwd, _ := os.Getwd()
+	fullPath := filepath.Join(pwd, "data_test.go")
+	f, err := getAst(fullPath)
+	if err != nil {
+		t.Error(err)
+	}
+
+	for _, node := range f.Decls {
+		ProfileNode(node)
+	}
+}

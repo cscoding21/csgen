@@ -216,7 +216,19 @@ func GetInterfaces(filePath string) ([]Interface, error) {
 							IsPublic: isPublic(spec.Name.Name),
 						}
 
-						// for _, field := range spec.TypeParams.List {
+						ast.Inspect(f, func(n ast.Node) bool {
+							if fd, ok := n.(*ast.FuncDecl); ok {
+								fmt.Printf("Function: %s, parameters:\n", fd.Name)
+								for _, param := range fd.Type.Params.List {
+									fmt.Printf("  Name: %s\n", param.Names[0])
+									fmt.Printf("    ast type          : %T\n", param.Type)
+									fmt.Printf("    type desc         : %+v\n", param.Type)
+								}
+							}
+							return true
+						})
+
+						// for _, field := range spec.Type.Methods.List{
 						// 	fn := Function{
 						// 		Name:      field.Names[0].Name,
 						// 		Arguments: []StructField{},
@@ -302,4 +314,19 @@ func NewCSGenBuilderForFile(name string, pkg string) *strings.Builder {
 	builder.WriteByte('\n')
 
 	return &builder
+}
+
+// ProfileNode get details about an unknown node based on its actual type
+func ProfileNode(node ast.Node) {
+	if node == nil {
+		return
+	}
+
+	switch x := node.(type) {
+	case *ast.CallExpr:
+		id, ok := x.Fun.(*ast.Ident)
+		if ok {
+			fmt.Println(fmt.Sprintf("CallExpr: %v", id.Name))
+		}
+	}
 }
