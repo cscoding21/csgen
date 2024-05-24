@@ -8,25 +8,6 @@ on:
     branches: [ master ]
 
 jobs:
-  # The "build" workflow
-  get_source:
-    # The type of runner that the job will run on
-    runs-on: ubuntu-latest
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
-    steps:
-    # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-    - uses: actions/checkout@v2
-    
   build_and_test:
     uses: cscoding21/cscoding/.github/workflows/go-build.yaml@main
     
-
-    # Discord notification
-    # https://github.com/marketplace/actions/actions-for-discord
-    # - name: Discord notification
-    #   env:
-    #     DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
-    #   uses: Ilshidur/action-discord@master
-    #   with:
-    #     args: 'The project {{ EVENT_PAYLOAD.repository.full_name }} has been deployed.'
