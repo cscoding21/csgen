@@ -19,11 +19,11 @@ jobs:
           fetch-depth: 0
 
       - name: Create temporary branch
-        run: git branch "release-from-${{ github.sha }}" "${{ github.sha }}"
+        run: git switch -c "release/${{ github.sha }}"
 
       # switch to the temporary branch
       - name: Switch to new branch
-        run: git checkout release-from-${{ github.sha }}
+        run: git push -u origin release/${{ github.sha }}
 
       - name: Create bump and changelog
         id: changelog
