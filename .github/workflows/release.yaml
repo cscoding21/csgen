@@ -17,10 +17,36 @@ jobs:
         with:
           token: "${{ secrets.GITHUB_TOKEN }}"
           fetch-depth: 0
+
+      - name: Create temporary branch
+        run: git branch "release-from-${{ github.sha }}" "${{ github.sha }}"
+
+      # switch to the temporary branch
+      - name: Switch to new branch
+        run: git checkout release-from-${{ github.sha }}
+
       - name: Create bump and changelog
+        id: changelog
         uses: commitizen-tools/commitizen-action@master
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
+
+       # create PR using GitHub CLI
+      - name: Create PR with release info
+        if: steps.changelog.outputs.skipped == 'false'
+        id: create-pr
+        run: gh pr create --base main --head release-from-${{ github.sha }} --title 'Merge new release into main' --body 'Created by Github action'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # merge PR using GitHub CLI
+      - name: merge PR with release info
+        if: steps.changelog.outputs.skipped == 'false'
+        id: merge-pr
+        run: gh pr merge --admin --merge --subject 'Merge release info' --delete-branch
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
