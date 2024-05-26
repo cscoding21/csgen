@@ -29,6 +29,8 @@ jobs:
         id: changelog
         uses: commitizen-tools/commitizen-action@master
         with:
+          debug: true
+          branch: release-from-${{ github.sha }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
 
        # create PR using GitHub CLI
