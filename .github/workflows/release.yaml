@@ -24,13 +24,15 @@ jobs:
       # switch to the temporary branch
       - name: Switch to new branch
         run: git push -u origin release/${{ github.sha }}
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Create bump and changelog
         id: changelog
         uses: commitizen-tools/commitizen-action@master
         with:
           debug: true
-          branch: release-from-${{ github.sha }}
+          branch: release/${{ github.sha }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
 
        # create PR using GitHub CLI
