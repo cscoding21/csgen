@@ -24,8 +24,8 @@ jobs:
       # switch to the temporary branch
       - name: Switch to new branch
         run: git push -u origin release/${{ github.sha }}
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Create bump and changelog
         id: changelog
@@ -39,7 +39,7 @@ jobs:
       - name: Create PR with release info
         if: steps.changelog.outputs.skipped == 'false'
         id: create-pr
-        run: gh pr create --base main --head release-from-${{ github.sha }} --title 'Merge new release into main' --body 'Created by Github action'
+        run: gh pr create --base main --head release/${{ github.sha }} --title 'Merge new release into main' --body 'Created by Github action'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
