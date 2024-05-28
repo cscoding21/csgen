@@ -228,6 +228,8 @@ func GetInterfaces(filePath string) ([]Interface, error) {
 							return true
 						})
 
+						//---FOR REFERENCE: http://goast.yuroyoro.net/
+						//					https://gist.github.com/ncdc/fef1099f54a655f8fb11daf86f7868b8
 						// for _, field := range spec.Type.Methods.List{
 						// 	fn := Function{
 						// 		Name:      field.Names[0].Name,
