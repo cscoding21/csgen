@@ -26,14 +26,14 @@ func TestGetFileName(t *testing.T) {
 func TestGetFieldIndicator(t *testing.T) {
 	testCases := []struct {
 		ok   bool
-		s1   StructField
-		s2   StructField
+		s1   Field
+		s2   Field
 		want string
 	}{
-		{ok: true, s1: StructField{IsPointer: true}, s2: StructField{IsPointer: true}, want: ""},
-		{ok: true, s1: StructField{IsPointer: true}, s2: StructField{IsPointer: false}, want: "*"},
-		{ok: true, s1: StructField{IsPointer: false}, s2: StructField{IsPointer: true}, want: "&"},
-		{ok: true, s1: StructField{IsPointer: false}, s2: StructField{IsPointer: false}, want: ""},
+		{ok: true, s1: Field{IsPointer: true}, s2: Field{IsPointer: true}, want: ""},
+		{ok: true, s1: Field{IsPointer: true}, s2: Field{IsPointer: false}, want: "*"},
+		{ok: true, s1: Field{IsPointer: false}, s2: Field{IsPointer: true}, want: "&"},
+		{ok: true, s1: Field{IsPointer: false}, s2: Field{IsPointer: false}, want: ""},
 	}
 
 	for _, input := range testCases {
@@ -108,7 +108,7 @@ func TestIsFullyQualifiedPackage(t *testing.T) {
 func TestSourceObjectContainsField(t *testing.T) {
 	testStruct := Struct{
 		Name: "TestStruct",
-		Fields: []StructField{
+		Fields: []Field{
 			{Name: "ID"},
 			{Name: "Name"},
 			{Name: "phone"},

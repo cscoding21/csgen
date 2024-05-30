@@ -53,7 +53,7 @@ func GetStructs(filePath string) ([]Struct, error) {
 						FilePath: filePath,
 						Package:  pkgName,
 						Name:     typeSpec.Name.Name,
-						Fields:   []StructField{},
+						Fields:   []Field{},
 					}
 
 					switch typeSpec.Type.(type) {
@@ -68,7 +68,7 @@ func GetStructs(filePath string) ([]Struct, error) {
 							}
 
 							for _, name := range field.Names {
-								s := StructField{
+								s := Field{
 									Name:        name.Name,
 									Type:        fieldType,
 									TagString:   tagString,
@@ -92,8 +92,8 @@ func GetStructs(filePath string) ([]Struct, error) {
 }
 
 // GetVariables returns a list of all variable definitions in a given file
-func GetVariables(filePath string) ([]StructField, error) {
-	out := []StructField{}
+func GetVariables(filePath string) ([]Field, error) {
+	out := []Field{}
 
 	f, err := getAst(filePath)
 	if err != nil {
@@ -108,7 +108,7 @@ func GetVariables(filePath string) ([]StructField, error) {
 				switch spec := spec.(type) {
 				case *ast.ValueSpec:
 					for _, id := range spec.Names {
-						thisVar := StructField{
+						thisVar := Field{
 							Name:        id.Name,
 							Type:        types.ExprString(spec.Type),
 							TagString:   "",
@@ -176,8 +176,8 @@ func GetFunctions(filePath string) ([]Function, error) {
 		case *ast.FuncDecl:
 			fn := Function{
 				Name:      decl.Name.Name,
-				Arguments: []StructField{},
-				Returns:   []StructField{},
+				Arguments: []Field{},
+				Returns:   []Field{},
 				IsPublic:  isPublic(decl.Name.Name),
 			}
 
@@ -328,7 +328,7 @@ func ProfileNode(node ast.Node) {
 	case *ast.CallExpr:
 		id, ok := x.Fun.(*ast.Ident)
 		if ok {
-			fmt.Println(fmt.Sprintf("CallExpr: %v", id.Name))
+			fmt.Printf("CallExpr: %v", id.Name)
 		}
 	}
 }

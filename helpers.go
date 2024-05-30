@@ -65,7 +65,7 @@ func getFileName(path string, name string) string {
 	return fullPath
 }
 
-func getFieldIndicator(source StructField, target StructField) string {
+func getFieldIndicator(source Field, target Field) string {
 	if source.IsPointer == target.IsPointer {
 		return ""
 	}

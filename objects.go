@@ -8,11 +8,11 @@ type Struct struct {
 	FilePath string
 	Package  string
 	Type     string
-	Fields   []StructField
+	Fields   []Field
 }
 
-// StructField a struct that represents a single field within a struct abstraction
-type StructField struct {
+// Field a struct that represents a single field within a struct abstraction
+type Field struct {
 	Name        string
 	Type        string
 	TagString   string
@@ -26,8 +26,8 @@ type StructField struct {
 type Function struct {
 	Name      string
 	Receiver  *string
-	Arguments []StructField
-	Returns   []StructField
+	Arguments []Field
+	Returns   []Field
 	IsPublic  bool
 }
 
@@ -39,7 +39,7 @@ type Interface struct {
 }
 
 // GetTag returns a single tag value by name based on the standard format rules
-func (s *StructField) GetTag(name string) string {
+func (s *Field) GetTag(name string) string {
 	if len(s.TagString) == 0 || len(name) == 0 {
 		return ""
 	}
@@ -69,7 +69,7 @@ func (s *StructField) GetTag(name string) string {
 }
 
 // GetField return a field object of a struct by its name
-func (s *Struct) GetField(name string) *StructField {
+func (s *Struct) GetField(name string) *Field {
 	for _, f := range s.Fields {
 		if f.Name == name {
 			return &f

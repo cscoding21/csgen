@@ -97,8 +97,8 @@ func TestGetFields(t *testing.T) {
 		t.Error("expected field Name")
 	}
 
-	if nameField.Name != "Name" {
-		t.Error("expected field Name")
+	if nameField.Type != "string" {
+		t.Error("expected field Name to be string")
 	}
 }
 

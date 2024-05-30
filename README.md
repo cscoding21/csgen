@@ -28,5 +28,57 @@ CSGen is a Golang utility package for simplifying development of code generation
 ## Core Uses
 The primary use-case for the library is to get a list of all the structs in a file including details about each field.
 
-    //---get all of the structs within a file.  The file argument
+    
+    import (
+        "fmt"
+        "github.com/cscoding21/csgen"
+    )
+    
+    //---get all of the structs within a file.
     structs, err := csgen.GetStructs("test_struct.go")
+
+    if err != nil {
+        panic("error loading file")
+    }
+
+    for _, s := range structs {
+        fmt.Println(s.Name)
+        for _, f := range s.Fields {
+            fmt.Println("  -- ", f.Name, f.Type)
+        }
+    } 
+
+The __struct__ object contains information about the struct's definition as well as all fields contained within.
+
+## Struct Properties
+| Property | Type | Description |
+| --- | --- | --- |
+|Name|string|The name of the struct|
+|Type|string|The type of the struct|
+|FilePath|string|The path to the file containing the struct|
+|Package|string|The package the struct is contained within|
+|Fields|[]Field|The list of fields contained within the struct|
+
+Additionally, a struct has a __GetField(name string)__ method that will return an individual field object by its name.
+
+## Field Properties
+| Property | Type | Description |
+| --- | --- | --- |
+|Name|string|The name of the field|
+|Type|string|The type of the field|
+|TagString|string|The tag string for the field|
+|IsPrimitive|bool|True if the field is a primitive type|
+|IsPointer|bool|True if the field is defined as a pointer to value|
+|IsSlice|bool|True if the field is a slice|
+|IsPublic|bool|True if the field is available outside the package|
+
+Additionally, a field has a __GetTag(name string)__ method.  This method can be used to extract the value of an individual tag from the tag string.  For example, consider the tag string __`json:"email" csval:"req,email"`__.
+
+    s.GetTag("json")    //---returns "email"
+    s.GetTag("caval")   //---returns "req,email"
+
+
+
+
+
+

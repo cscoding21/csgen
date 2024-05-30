@@ -8,3 +8,6 @@ qual:
 	golint . && \
 	go vet ./... && \
 	go test ./...;
+
+releae:
+	cz bump;
