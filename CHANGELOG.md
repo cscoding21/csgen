@@ -1,3 +1,9 @@
+## v0.2.0 (2024-05-31)
+
+### Fix
+
+- update the version file to coincide with go's standard
+
 ## 0.1.0 (2024-05-30)
 
 ### Feat
