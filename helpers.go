@@ -122,16 +122,6 @@ func IsFullyQualifiedPackage(name string) bool {
 	return strings.Contains(name, ".")
 }
 
-// func SourceObjectContainsField(name string, graph Struct) bool {
-// 	for _, f := range graph.Fields {
-// 		if f.Name == name {
-// 			return true
-// 		}
-// 	}
-
-// 	return false
-// }
-
 // GetStructByName given a slice of structs, return one if it matches the name
 func GetStructByName(name string, graph []Struct) *Struct {
 	for _, o := range graph {
