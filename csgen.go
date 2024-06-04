@@ -31,7 +31,7 @@ func GetStructs(filePath string) ([]Struct, error) {
 	// https://magodo.github.io/go-ast-tips/
 	out := []Struct{}
 
-	f, err := getAst(filePath)
+	f, err := GetAST(filePath)
 	if err != nil {
 		fmt.Println(err)
 		return out, err
@@ -72,9 +72,9 @@ func GetStructs(filePath string) ([]Struct, error) {
 									Name:        name.Name,
 									Type:        fieldType,
 									TagString:   tagString,
-									IsPrimitive: isPrimitive(fieldType),
-									IsPointer:   isRefType(fieldType),
-									IsSlice:     isSlice(fieldType),
+									IsPrimitive: IsPrimitive(fieldType),
+									IsPointer:   IsRefType(fieldType),
+									IsSlice:     IsSlice(fieldType),
 								}
 
 								outStruct.Fields = append(outStruct.Fields, s)
@@ -95,7 +95,7 @@ func GetStructs(filePath string) ([]Struct, error) {
 func GetVariables(filePath string) ([]Field, error) {
 	out := []Field{}
 
-	f, err := getAst(filePath)
+	f, err := GetAST(filePath)
 	if err != nil {
 		fmt.Println(err)
 		return out, err
@@ -112,10 +112,10 @@ func GetVariables(filePath string) ([]Field, error) {
 							Name:        id.Name,
 							Type:        types.ExprString(spec.Type),
 							TagString:   "",
-							IsPrimitive: isPrimitive(types.ExprString(spec.Type)),
-							IsPointer:   isRefType(types.ExprString(spec.Type)),
-							IsSlice:     isSlice(types.ExprString(spec.Type)),
-							IsPublic:    isPublic(id.Name),
+							IsPrimitive: IsPrimitive(types.ExprString(spec.Type)),
+							IsPointer:   IsRefType(types.ExprString(spec.Type)),
+							IsSlice:     IsSlice(types.ExprString(spec.Type)),
+							IsPublic:    IsPublic(id.Name),
 						}
 
 						out = append(out, thisVar)
@@ -136,7 +136,7 @@ func GetVariables(filePath string) ([]Field, error) {
 func GetImports(filePath string) ([]string, error) {
 	out := []string{}
 
-	f, err := getAst(filePath)
+	f, err := GetAST(filePath)
 	if err != nil {
 		fmt.Println(err)
 		return out, err
@@ -165,7 +165,7 @@ func GetImports(filePath string) ([]string, error) {
 func GetFunctions(filePath string) ([]Function, error) {
 	out := []Function{}
 
-	f, err := getAst(filePath)
+	f, err := GetAST(filePath)
 	if err != nil {
 		fmt.Println(err)
 		return out, err
@@ -178,7 +178,7 @@ func GetFunctions(filePath string) ([]Function, error) {
 				Name:      decl.Name.Name,
 				Arguments: []Field{},
 				Returns:   []Field{},
-				IsPublic:  isPublic(decl.Name.Name),
+				IsPublic:  IsPublic(decl.Name.Name),
 			}
 
 			out = append(out, fn)
@@ -194,7 +194,7 @@ func GetFunctions(filePath string) ([]Function, error) {
 func GetInterfaces(filePath string) ([]Interface, error) {
 	out := []Interface{}
 
-	f, err := getAst(filePath)
+	f, err := GetAST(filePath)
 	if err != nil {
 		fmt.Println(err)
 		return out, err
@@ -213,7 +213,7 @@ func GetInterfaces(filePath string) ([]Interface, error) {
 						in := Interface{
 							Name:     spec.Name.Name,
 							Methods:  []Function{},
-							IsPublic: isPublic(spec.Name.Name),
+							IsPublic: IsPublic(spec.Name.Name),
 						}
 
 						ast.Inspect(f, func(n ast.Node) bool {

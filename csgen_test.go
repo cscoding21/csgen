@@ -228,7 +228,7 @@ func TestMyFunc(t *testing.T) {
 func TestProfileNode(t *testing.T) {
 	pwd, _ := os.Getwd()
 	fullPath := filepath.Join(pwd, "data_test.go")
-	f, err := getAst(fullPath)
+	f, err := GetAST(fullPath)
 	if err != nil {
 		t.Error(err)
 	}

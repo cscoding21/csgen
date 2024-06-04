@@ -12,13 +12,15 @@ import (
 	"strings"
 )
 
-func getAst(filePath string) (*ast.File, error) {
+// GetAST return an AST object from a single file
+func GetAST(filePath string) (*ast.File, error) {
 	fset := token.NewFileSet()
 	return parser.ParseFile(fset, filePath, nil, 0)
 }
 
-func isPrimitive(t string) bool {
-	et := getRawType(t)
+// IsPrimitive return true if the type is a primitive
+func IsPrimitive(t string) bool {
+	et := GetRawType(t)
 
 	return et == "string" ||
 		et == "int" ||
@@ -38,15 +40,18 @@ func isPrimitive(t string) bool {
 		et == "byte"
 }
 
-func isSlice(t string) bool {
+// IsSlice return true if the type is a slice
+func IsSlice(t string) bool {
 	return strings.Contains(t, "[]")
 }
 
-func isRefType(t string) bool {
+// IsRefType return true if the type is a pointer
+func IsRefType(t string) bool {
 	return strings.Contains(t, "*")
 }
 
-func isPublic(t string) bool {
+// IsPublic return true if the type is public
+func IsPublic(t string) bool {
 	if len(t) == 0 {
 		return false
 	}
@@ -58,14 +63,16 @@ func isPublic(t string) bool {
 	return unicode.IsUpper(r)
 }
 
-func getFileName(path string, name string) string {
+// GetFileName return a file name suffixed with ".gen.go" to indicate that is was generated
+func GetFileName(path string, name string) string {
 	name = strings.TrimSuffix(name, filepath.Ext(name))
 
 	fullPath := filepath.Join(path, fmt.Sprintf("%s.gen.go", strings.ToLower(name)))
 	return fullPath
 }
 
-func getFieldIndicator(source Field, target Field) string {
+// GetFieldIndicator for creating an assignment operations, returns an indicator for the field based on the type of the source and target
+func GetFieldIndicator(source Field, target Field) string {
 	if source.IsPointer == target.IsPointer {
 		return ""
 	}
@@ -77,7 +84,8 @@ func getFieldIndicator(source Field, target Field) string {
 	return "&"
 }
 
-func getRawType(t string) string {
+// GetRawType return the raw type of a type, removing the pointer, reference and slice indicators
+func GetRawType(t string) string {
 	out := t
 
 	out = strings.ReplaceAll(out, "*", "")
@@ -87,7 +95,8 @@ func getRawType(t string) string {
 	return out
 }
 
-func stripPackageName(name string) string {
+// StripPackageName removes the package name from a fully qualified name
+func StripPackageName(name string) string {
 	elements := strings.Split(name, ".")
 
 	if len(elements) > 1 {
@@ -97,7 +106,8 @@ func stripPackageName(name string) string {
 	return name
 }
 
-func extractPackageName(name string) string {
+// ExtractPackageName return the package name from a fully qualified name
+func ExtractPackageName(name string) string {
 	elements := strings.Split(name, ".")
 
 	if len(elements) > 1 {
@@ -107,21 +117,23 @@ func extractPackageName(name string) string {
 	return ""
 }
 
-func isFullyQualifiedPackage(name string) bool {
+// IsFullyQualifiedPackage return true if the package name is fully qualified
+func IsFullyQualifiedPackage(name string) bool {
 	return strings.Contains(name, ".")
 }
 
-func sourceObjectContainsField(name string, graph Struct) bool {
-	for _, f := range graph.Fields {
-		if f.Name == name {
-			return true
-		}
-	}
+// func SourceObjectContainsField(name string, graph Struct) bool {
+// 	for _, f := range graph.Fields {
+// 		if f.Name == name {
+// 			return true
+// 		}
+// 	}
 
-	return false
-}
+// 	return false
+// }
 
-func getStructByName(name string, graph []Struct) *Struct {
+// GetStructByName given a slice of structs, return one if it matches the name
+func GetStructByName(name string, graph []Struct) *Struct {
 	for _, o := range graph {
 		if strings.EqualFold(o.Name, strings.Trim(name, " ")) {
 			return &o

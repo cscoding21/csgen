@@ -78,3 +78,10 @@ func (s *Struct) GetField(name string) *Field {
 
 	return nil
 }
+
+// ContainsField returns true if the struct contains a field with the passed in name
+func (s *Struct) ContainsField(name string) bool {
+	f := s.GetField(name)
+
+	return f != nil
+}

@@ -15,7 +15,7 @@ func TestGetFileName(t *testing.T) {
 	}
 
 	for _, input := range testCases {
-		fn := getFileName("here", input.have)
+		fn := GetFileName("here", input.have)
 
 		if fn != input.want {
 			t.Errorf("expected %s...got %s", input.want, fn)
@@ -37,7 +37,7 @@ func TestGetFieldIndicator(t *testing.T) {
 	}
 
 	for _, input := range testCases {
-		fn := getFieldIndicator(input.s1, input.s2)
+		fn := GetFieldIndicator(input.s1, input.s2)
 
 		if fn != input.want {
 			t.Errorf("expected %s...got %s", input.want, fn)
@@ -57,7 +57,7 @@ func TestStripPackageName(t *testing.T) {
 	}
 
 	for _, input := range testCases {
-		fn := stripPackageName(input.have)
+		fn := StripPackageName(input.have)
 
 		if fn != input.want {
 			t.Errorf("expected %s...got %s", input.want, fn)
@@ -77,7 +77,7 @@ func TestExtractPackageName(t *testing.T) {
 	}
 
 	for _, input := range testCases {
-		fn := extractPackageName(input.have)
+		fn := ExtractPackageName(input.have)
 
 		if fn != input.want {
 			t.Errorf("expected %s...got %s", input.want, fn)
@@ -97,7 +97,7 @@ func TestIsFullyQualifiedPackage(t *testing.T) {
 	}
 
 	for _, input := range testCases {
-		fn := isFullyQualifiedPackage(input.have)
+		fn := IsFullyQualifiedPackage(input.have)
 
 		if fn != input.want {
 			t.Errorf("expected %v...got %v", input.want, fn)
@@ -129,7 +129,7 @@ func TestSourceObjectContainsField(t *testing.T) {
 	}
 
 	for _, input := range testCases {
-		fn := sourceObjectContainsField(input.have, input.st)
+		fn := testStruct.ContainsField(input.have)
 
 		if fn != input.want {
 			t.Errorf("expected %v...got %v", input.want, fn)
@@ -159,7 +159,7 @@ func TestGetSructByName(t *testing.T) {
 	}
 
 	for _, input := range testData {
-		st := getStructByName(input.have, slices)
+		st := GetStructByName(input.have, slices)
 		if input.want && st == nil {
 			t.Errorf("expected true for name %s...got false", input.have)
 		}
@@ -180,7 +180,7 @@ func TestIsPublic(t *testing.T) {
 	}
 
 	for _, input := range testData {
-		if isPublic(input.have) != input.want {
+		if IsPublic(input.have) != input.want {
 			t.Errorf("expected true for name %s...got false", input.have)
 		}
 	}
