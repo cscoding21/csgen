@@ -1,3 +1,10 @@
+## v0.2.1 (2024-06-04)
+
+### Fix
+
+- remove comment out code from helpers
+- update helper functions to be available outside of the package
+
 ## v0.2.0 (2024-05-31)
 
 ### Fix
