@@ -1,3 +1,10 @@
+## v0.2.2 (2024-06-04)
+
+### Fix
+
+- fix merge error
+- add goimports formatting of file to remove unused import files on write
+
 ## v0.2.1 (2024-06-04)
 
 ### Fix
