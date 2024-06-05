@@ -12,6 +12,8 @@ import (
 	"go/ast"
 	"go/format"
 	"go/types"
+
+	"golang.org/x/tools/imports"
 )
 
 // GetFile returns the current file based on the generators env or passed in value
@@ -274,6 +276,11 @@ func ExecuteTemplate[T any](name string, fileTemplate string, om T) string {
 // WriteGeneratedGoFile create a text file with the passed in name and contents
 func WriteGeneratedGoFile(name string, contents string) error {
 	code, err := format.Source([]byte(contents))
+	if err != nil {
+		return err
+	}
+
+	code, err = imports.Process(name, code, nil)
 	if err != nil {
 		return err
 	}

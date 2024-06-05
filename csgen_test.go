@@ -200,6 +200,10 @@ func TestExecuteTemplate(t *testing.T) {
 func TestWriteGeneratedGoFile(t *testing.T) {
 	name := "test.go"
 	contents := `package test
+
+	import (
+		"fmt"
+	)
 	
 	func main() {}`
 
