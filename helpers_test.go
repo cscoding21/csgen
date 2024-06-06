@@ -7,15 +7,17 @@ import (
 func TestGetFileName(t *testing.T) {
 	testCases := []struct {
 		ok   bool
+		imp  string
 		have string
 		want string
 	}{
-		{ok: true, have: "test.go", want: "here/test.gen.go"},
-		{ok: true, have: "test", want: "here/test.gen.go"},
+		{ok: true, imp: "csmap", have: "test.go", want: "here/test_csmap.gen.go"},
+		{ok: true, imp: "csval", have: "test", want: "here/test_csval.gen.go"},
+		{ok: true, imp: "CSDEEZ", have: "TEST", want: "here/test_csdeez.gen.go"},
 	}
 
 	for _, input := range testCases {
-		fn := GetFileName("here", input.have)
+		fn := GetFileName(input.imp, "here", input.have)
 
 		if fn != input.want {
 			t.Errorf("expected %s...got %s", input.want, fn)

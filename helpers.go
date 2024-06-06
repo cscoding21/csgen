@@ -64,10 +64,10 @@ func IsPublic(t string) bool {
 }
 
 // GetFileName return a file name suffixed with ".gen.go" to indicate that is was generated
-func GetFileName(path string, name string) string {
+func GetFileName(imp string, path string, name string) string {
 	name = strings.TrimSuffix(name, filepath.Ext(name))
 
-	fullPath := filepath.Join(path, fmt.Sprintf("%s.gen.go", strings.ToLower(name)))
+	fullPath := filepath.Join(path, fmt.Sprintf("%s_%s.gen.go", strings.ToLower(name), strings.ToLower(imp)))
 	return fullPath
 }
 

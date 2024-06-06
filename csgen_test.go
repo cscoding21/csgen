@@ -95,9 +95,10 @@ func TestGetFields(t *testing.T) {
 	nameField := st.GetField("Name")
 	if nameField == nil {
 		t.Error("expected field Name")
+		return
 	}
 
-	if nameField.Type != "string" {
+	if !strings.EqualFold(nameField.Type, "string") {
 		t.Error("expected field Name to be string")
 	}
 }
@@ -211,7 +212,7 @@ func TestWriteGeneratedGoFile(t *testing.T) {
 	if err != nil {
 		t.Error(err)
 	}
-	defer os.Remove(name)
+	//defer os.Remove(name)
 
 	bs, err := os.ReadFile(name)
 	if err != nil {
