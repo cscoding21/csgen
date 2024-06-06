@@ -1,4 +1,10 @@
 <<<<<<< HEAD
+## v0.2.4 (2024-06-06)
+
+### Fix
+
+- add the implementation context to the GetFileName function
+
 ## v0.2.3 (2024-06-05)
 
 ### Fix
