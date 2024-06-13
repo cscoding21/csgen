@@ -67,7 +67,7 @@ func IsPublic(t string) bool {
 func GetFileName(imp string, path string, name string) string {
 	name = strings.TrimSuffix(name, filepath.Ext(name))
 
-	fullPath := filepath.Join(path, fmt.Sprintf("%s_%s.gen.go", strings.ToLower(name), strings.ToLower(imp)))
+	fullPath := filepath.Join(path, fmt.Sprintf("_%s_%s.gen.go", strings.ToLower(name), strings.ToLower(imp)))
 	return fullPath
 }
 
