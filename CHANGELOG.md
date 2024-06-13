@@ -1,3 +1,9 @@
+## v0.4.0 (2024-06-13)
+
+### Feat
+
+- update GetFileName function to prefix all file names with an underscore
+
 ## v0.3.0 (2024-06-06)
 
 ### Fix
