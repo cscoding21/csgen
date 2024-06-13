@@ -212,7 +212,7 @@ func TestWriteGeneratedGoFile(t *testing.T) {
 	if err != nil {
 		t.Error(err)
 	}
-	//defer os.Remove(name)
+	defer os.Remove(name)
 
 	bs, err := os.ReadFile(name)
 	if err != nil {

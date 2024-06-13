@@ -11,9 +11,9 @@ func TestGetFileName(t *testing.T) {
 		have string
 		want string
 	}{
-		{ok: true, imp: "csmap", have: "test.go", want: "here/test_csmap.gen.go"},
-		{ok: true, imp: "csval", have: "test", want: "here/test_csval.gen.go"},
-		{ok: true, imp: "CSDEEZ", have: "TEST", want: "here/test_csdeez.gen.go"},
+		{ok: true, imp: "csmap", have: "test.go", want: "here/_test_csmap.gen.go"},
+		{ok: true, imp: "csval", have: "test", want: "here/_test_csval.gen.go"},
+		{ok: true, imp: "CSDEEZ", have: "TEST", want: "here/_test_csdeez.gen.go"},
 	}
 
 	for _, input := range testCases {
