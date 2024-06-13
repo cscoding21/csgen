@@ -1,3 +1,9 @@
+## v0.4.2 (2024-06-13)
+
+### Fix
+
+- re-update GetFileName and NewCSGenBuilderForFile to conform to go standards
+
 ## v0.4.1 (2024-06-13)
 
 ### Fix
