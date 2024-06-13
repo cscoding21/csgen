@@ -1,3 +1,9 @@
+## v0.4.1 (2024-06-13)
+
+### Fix
+
+- fix get name file documentation to fool the release into trueing up
+
 ## v0.4.0 (2024-06-13)
 
 ### Feat
