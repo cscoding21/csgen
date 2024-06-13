@@ -68,7 +68,7 @@ func GetFileName(imp string, path string, name string) string {
 	//---remove the extension so it can be readded without issue
 	name = strings.TrimSuffix(name, filepath.Ext(name))
 
-	fullPath := filepath.Join(path, fmt.Sprintf("_%s_%s.gen.go", strings.ToLower(name), strings.ToLower(imp)))
+	fullPath := filepath.Join(path, fmt.Sprintf("z_%s_%s.gen.go", strings.ToLower(name), strings.ToLower(imp)))
 	return fullPath
 }
 

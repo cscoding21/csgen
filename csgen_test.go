@@ -178,7 +178,7 @@ func TestNewCSGenBuilderForFile(t *testing.T) {
 		t.Error("expected package test...got ", bs)
 	}
 
-	if !strings.Contains(bs, "// ### Common Sense Coding") {
+	if !strings.Contains(bs, "// Code generated . DO NOT EDIT.") {
 		t.Error("expected import Common Sense Coding label ", bs)
 	}
 }
