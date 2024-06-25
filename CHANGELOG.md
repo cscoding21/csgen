@@ -1,3 +1,9 @@
+## v0.4.3 (2024-06-25)
+
+### Fix
+
+- fix the GetFile method to property handle absolute paths
+
 ## v0.4.2 (2024-06-13)
 
 ### Fix
