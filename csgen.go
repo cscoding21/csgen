@@ -18,12 +18,19 @@ import (
 
 // GetFile returns the current file based on the generators env or passed in value
 func GetFile(file ...string) string {
+	//---if the user passes in the file path, return an absolute version
+	if len(file) > 0 && file[0] != "" {
+		fp, err := filepath.Abs(file[0])
+		if err != nil {
+			panic(err)
+		}
+
+		return fp
+	}
+
+	//---if nothing is passed in, use the generators file name from the env
 	pwd, _ := os.Getwd()
 	f := os.Getenv("GOFILE")
-
-	if len(file) > 0 && file[0] != "" {
-		f = "/" + file[0]
-	}
 
 	return filepath.Join(pwd, f)
 }

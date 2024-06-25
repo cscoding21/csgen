@@ -149,21 +149,30 @@ func TestGetTag(t *testing.T) {
 
 func TestGetFile(t *testing.T) {
 	pwd, _ := os.Getwd()
-	testFileName := "test_argument.go"
-	filePath := filepath.Join(pwd, testFileName)
-	file := GetFile(testFileName)
 
-	//---test filename passed in by argument
-	if file != filePath {
-		t.Errorf("expected test_argument.go...got %s", file)
+	testData := []struct {
+		ok   bool
+		have string
+		want string
+	}{
+		{ok: true, have: "test_argument.go", want: filepath.Join(pwd, "test_argument.go")},
+		{ok: true, have: "rel/test_argument.go", want: filepath.Join(pwd, "rel/test_argument.go")},
+		{ok: true, have: "/home/test_argument.go", want: "/home/test_argument.go"},
 	}
 
-	testFileName = "test_env.go"
-	filePath = filepath.Join(pwd, testFileName)
-	os.Setenv("GOFILE", testFileName)
+	//---evaluate argument test cases
+	for _, input := range testData {
+		f := GetFile(input.have)
+		if !strings.EqualFold(f, input.want) {
+			t.Errorf("for input %s, expected %s...got %s", input.have, input.want, f)
+		}
+	}
 
 	//---test filename in environment created by generator
-	file = GetFile()
+	testFileName := "test_env.go"
+	filePath := filepath.Join(pwd, testFileName)
+	os.Setenv("GOFILE", testFileName)
+	file := GetFile()
 	if file != filePath {
 		t.Errorf("expected test_env.go...got %s", file)
 	}
