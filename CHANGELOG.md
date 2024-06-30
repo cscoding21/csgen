@@ -1,3 +1,9 @@
+## v0.5.0 (2024-06-30)
+
+### Feat
+
+- add new file header generator for one-off generated files and a function to infer a package name from a path
+
 ## v0.4.3 (2024-06-25)
 
 ### Fix
