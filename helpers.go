@@ -5,6 +5,7 @@ import (
 	"go/ast"
 	"go/parser"
 	"go/token"
+	"path"
 	"unicode"
 	"unicode/utf8"
 
@@ -132,4 +133,11 @@ func GetStructByName(name string, graph []Struct) *Struct {
 	}
 
 	return nil
+}
+
+// InferPackageFromOutputPath given the output path, return the package name consistent with the deepest directory
+func InferPackageFromOutputPath(outPath string) string {
+	_, dir := path.Split(outPath)
+
+	return dir
 }

@@ -188,7 +188,21 @@ func TestNewCSGenBuilderForFile(t *testing.T) {
 	}
 
 	if !strings.Contains(bs, "// Code generated . DO NOT EDIT.") {
-		t.Error("expected import Common Sense Coding label ", bs)
+		t.Error("expected code generated indicator ", bs)
+	}
+}
+
+func TestNewCSGenBuilderForOneOffFile(t *testing.T) {
+	builder := NewCSGenBuilderForOneOffFile("test2", "test2")
+
+	bs := builder.String()
+
+	if !strings.Contains(bs, "package test2") {
+		t.Error("expected package test2...got ", bs)
+	}
+
+	if !strings.Contains(bs, "// Developer Note: This file will only be generated once.") {
+		t.Error("expected developer note", bs)
 	}
 }
 

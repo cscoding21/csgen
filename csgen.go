@@ -322,6 +322,27 @@ func NewCSGenBuilderForFile(name string, pkg string) *strings.Builder {
 	builder.WriteByte('\n')
 	builder.WriteString(fmt.Sprintf("// Generate Date: %v\n", time.Now()))
 	builder.WriteString(fmt.Sprintf("// Implementation Name: %s\n", name))
+	builder.WriteString("// Developer Note: The contents of this file will be recreated each time its generator is called\n")
+	builder.WriteByte('\n')
+	builder.WriteString("// -----------------------------------------------------------------------------------------------\n")
+	builder.WriteByte('\n')
+	builder.WriteByte('\n')
+	builder.WriteString(fmt.Sprintf("package %s", pkg))
+	builder.WriteByte('\n')
+
+	return &builder
+}
+
+// NewCSGenBuilderForOneOffFile returns a string buider with a common header for generated files that are indented to be modified
+func NewCSGenBuilderForOneOffFile(name string, pkg string) *strings.Builder {
+	builder := strings.Builder{}
+
+	builder.WriteString("// --------------------------------- GENERATED FILE : OK TO EDIT ---------------------------------\n")
+	builder.WriteString("// Common Sense Coding (https://github.com/cscoding21/csgen)\n")
+	builder.WriteByte('\n')
+	builder.WriteString(fmt.Sprintf("// Generate Date: %v\n", time.Now()))
+	builder.WriteString(fmt.Sprintf("// Implementation Name: %s\n", name))
+	builder.WriteString("// Developer Note: This file will only be generated once.  It is intended to be modified.n")
 	builder.WriteByte('\n')
 	builder.WriteString("// -----------------------------------------------------------------------------------------------\n")
 	builder.WriteByte('\n')

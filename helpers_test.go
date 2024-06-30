@@ -187,3 +187,21 @@ func TestIsPublic(t *testing.T) {
 		}
 	}
 }
+
+func TestInferPackageFromOutputPath(t *testing.T) {
+	testData := []struct {
+		ok   bool
+		have string
+		want string
+	}{
+		{ok: true, have: "here/mypkg", want: "mypkg"},
+		{ok: true, have: "/home/usr/proj", want: "proj"},
+		{ok: true, have: "", want: ""},
+	}
+
+	for _, input := range testData {
+		if InferPackageFromOutputPath(input.have) != input.want {
+			t.Errorf("expected %s...got %s", input.want, InferPackageFromOutputPath(input.have))
+		}
+	}
+}
