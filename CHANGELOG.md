@@ -1,3 +1,9 @@
+## v0.6.0 (2024-08-07)
+
+### Feat
+
+- add loadmodule function to get a comprehensive graph of a full go module
+
 ## v0.5.0 (2024-06-30)
 
 ### Feat
