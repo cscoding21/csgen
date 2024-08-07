@@ -13,13 +13,14 @@ func TestGetStructs(t *testing.T) {
 	pwd, _ := os.Getwd()
 	fullPath := filepath.Join(pwd, "data_test.go")
 	structs, err := GetStructs(fullPath)
+	expectedCount := 3
 
 	if err != nil {
 		t.Error(err)
 	}
 
-	if len(structs) != 2 {
-		t.Errorf("expected 2 structs...got %v", len(structs))
+	if len(structs) != expectedCount {
+		t.Errorf("expected %v structs...got %v", expectedCount, len(structs))
 	}
 
 	for _, st := range structs {
@@ -271,7 +272,7 @@ func TestGetStructFieldsWithEmbedded(t *testing.T) {
 	fullPath := filepath.Join(pwd, "data_test.go")
 	structs, _ := GetStructs(fullPath)
 
-	st := structs[2]
+	st := structs[1]
 
 	nameField := st.GetField("Name")
 	if nameField == nil {

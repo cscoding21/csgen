@@ -2,12 +2,14 @@ package csgen
 
 import "strings"
 
+// Module represents an object graph for the entire codebase
 type Module struct {
 	Name     string
 	Path     string
 	Packages []Package
 }
 
+// Package represents an object graph for an entire package
 type Package struct {
 	Name    string
 	Path    string
