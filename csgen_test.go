@@ -265,3 +265,35 @@ func TestProfileNode(t *testing.T) {
 		ProfileNode(node)
 	}
 }
+
+func TestGetStructFieldsWithEmbedded(t *testing.T) {
+	pwd, _ := os.Getwd()
+	fullPath := filepath.Join(pwd, "data_test.go")
+	structs, _ := GetStructs(fullPath)
+
+	st := structs[2]
+
+	nameField := st.GetField("Name")
+	if nameField == nil {
+		t.Error("expected field Name")
+		return
+	}
+
+	if !strings.EqualFold(nameField.Type, "string") {
+		t.Error("expected field Name to be string")
+	}
+}
+
+//----------------------------------------------------------------------------------
+
+func TestLoadModule(t *testing.T) {
+	cfg := GetDefaultPackageConfig()
+	cfg.Tests = true
+	module, err := LoadModule(cfg)
+
+	if err != nil {
+		t.Error(err)
+	}
+
+	t.Log(module)
+}

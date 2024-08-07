@@ -13,6 +13,7 @@ import (
 	"go/format"
 	"go/types"
 
+	"golang.org/x/tools/go/packages"
 	"golang.org/x/tools/imports"
 )
 
@@ -72,6 +73,9 @@ func GetStructs(filePath string) ([]Struct, error) {
 							fieldType := types.ExprString(field.Type)
 							tagString := ""
 
+							fmt.Println(fieldType)
+							fmt.Printf("Struct: name=%s\n", typeSpec.Name.Name)
+
 							if field.Tag != nil {
 								tagString = field.Tag.Value
 							}
@@ -84,6 +88,7 @@ func GetStructs(filePath string) ([]Struct, error) {
 									IsPrimitive: IsPrimitive(fieldType),
 									IsPointer:   IsRefType(fieldType),
 									IsSlice:     IsSlice(fieldType),
+									IsPublic:    IsPublic(name.Name),
 								}
 
 								outStruct.Fields = append(outStruct.Fields, s)
@@ -366,4 +371,123 @@ func ProfileNode(node ast.Node) {
 			fmt.Printf("CallExpr: %v", id.Name)
 		}
 	}
+}
+
+// GetDefaultPackageConfig return a default set of values for loading module packages
+func GetDefaultPackageConfig() *packages.Config {
+	cfg := &packages.Config{
+		Tests: false,
+		Mode: packages.NeedSyntax |
+			packages.NeedName |
+			packages.NeedEmbedFiles |
+			packages.NeedFiles |
+			packages.NeedTypes |
+			packages.NeedModule |
+			packages.NeedDeps,
+	}
+
+	return cfg
+}
+
+// LoadModule use the "packages" package to load codebase items
+func LoadModule(cfg *packages.Config) (Module, error) {
+	module := Module{}
+	cwd, err := os.Getwd()
+	if err != nil {
+		return module, err
+	}
+
+	module.Path = cwd
+
+	pkgs, err := packages.Load(cfg, cwd)
+	if err != nil {
+		return module, err
+	}
+	if packages.PrintErrors(pkgs) > 0 {
+		//---TODO: figure out if this is an error condition
+		return module, fmt.Errorf("no packages loaded")
+	}
+
+	for _, pkg := range pkgs {
+		outPackage := Package{
+			Name:    pkg.Name,
+			Path:    pkg.PkgPath,
+			Files:   pkg.GoFiles,
+			Structs: []Struct{},
+		}
+
+		if len(module.Name) == 0 {
+			module.Name = pkg.Module.Path
+		}
+
+		// qual := types.RelativeTo(pkg.Types)
+		scope := pkg.Types.Scope()
+		for _, name := range scope.Names() {
+			obj := scope.Lookup(name)
+			if obj != nil && obj.Type() != nil && obj.Type().Underlying() != nil {
+				// obj is types.Named,
+				// obj.Type() is types.TypeName
+				// obj.Type().Underlying() exposes the types.Struct which
+				// gives access to the desired types.Var.Embedded()
+				st, ok := obj.Type().Underlying().(*types.Struct)
+				if !ok {
+					continue
+				}
+				fmt.Printf("Struct: %s - %s\n", obj.Name(), st.String())
+
+				outStruct := Struct{
+					Name:    obj.Name(),
+					Type:    obj.Type().String(),
+					Package: pkg.Name,
+					Fields:  []Field{},
+				}
+
+				for i := 0; i < st.NumFields(); i++ {
+					f := st.Field(i)
+					if f.Embedded() /* && strings.HasSuffix(f.Type().String(), "log.Logger") */ {
+						ist, ok := f.Origin().Type().Underlying().(*types.Struct)
+						if !ok {
+							continue
+						}
+
+						for x := 0; x < ist.NumFields(); x++ {
+							thisField := ist.Field(x)
+							ft := thisField.Type().String()
+
+							outField := Field{
+								Name:        thisField.Name(),
+								Type:        ft,
+								TagString:   "",
+								IsPrimitive: IsPrimitive(ft),
+								IsPointer:   IsRefType(ft),
+								IsSlice:     IsSlice(ft),
+								IsPublic:    IsPublic(thisField.Name()),
+							}
+
+							outStruct.EmbeddedFields = append(outStruct.EmbeddedFields, outField)
+						}
+					} else {
+						ft := f.Type().String()
+						outField := Field{
+							Name:        f.Name(),
+							Type:        ft,
+							TagString:   "",
+							IsPrimitive: IsPrimitive(ft),
+							IsPointer:   IsRefType(ft),
+							IsSlice:     IsSlice(ft),
+							IsPublic:    IsPublic(f.Name()),
+						}
+
+						outStruct.Fields = append(outStruct.Fields, outField)
+					}
+				}
+
+				outPackage.Structs = append(outPackage.Structs, outStruct)
+			}
+		}
+
+		module.Packages = append(module.Packages, outPackage)
+	}
+
+	return module, nil
 }

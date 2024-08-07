@@ -49,6 +49,14 @@ type TestStruct4 struct {
 	Time    time.Time
 }
 
+// TestStructWithEmbedding a struct with an embedded struct to test reading those properties
+type TestStructWithEmbedding struct {
+	TestStruct4
+
+	NativeProp1 string
+	NativeProp2 int
+}
+
 // MyFunc is a placeholder function to be identified and characterized by the tests
 func MyFunc() {
 	fmt.Println("Hello World")

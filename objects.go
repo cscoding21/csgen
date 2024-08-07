@@ -2,13 +2,27 @@ package csgen
 
 import "strings"
 
+type Module struct {
+	Name     string
+	Path     string
+	Packages []Package
+}
+
+type Package struct {
+	Name    string
+	Path    string
+	Files   []string
+	Structs []Struct
+}
+
 // Struct a struct that abstracts a golang struct
 type Struct struct {
-	Name     string
-	FilePath string
-	Package  string
-	Type     string
-	Fields   []Field
+	Name           string
+	FilePath       string
+	Package        string
+	Type           string
+	Fields         []Field
+	EmbeddedFields []Field
 }
 
 // Field a struct that represents a single field within a struct abstraction
@@ -36,6 +50,17 @@ type Interface struct {
 	Name     string
 	Methods  []Function
 	IsPublic bool
+}
+
+// GetStruct return a struct with the name that matches the argument
+func (p *Package) GetStruct(name string) *Struct {
+	for _, s := range p.Structs {
+		if strings.EqualFold(s.Name, name) {
+			return &s
+		}
+	}
+
+	return nil
 }
 
 // GetTag returns a single tag value by name based on the standard format rules
@@ -84,4 +109,9 @@ func (s *Struct) ContainsField(name string) bool {
 	f := s.GetField(name)
 
 	return f != nil
+}
+
+// AllFields return all fields and embedded fields
+func (s *Struct) AllFields() []Field {
+	return append(s.Fields, s.EmbeddedFields...)
 }
