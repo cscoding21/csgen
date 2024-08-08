@@ -1,3 +1,9 @@
+## v0.6.1 (2024-08-08)
+
+### Fix
+
+- add ID to module in package
+
 ## v0.6.0 (2024-08-07)
 
 ### Feat
