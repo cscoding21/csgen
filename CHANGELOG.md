@@ -1,3 +1,9 @@
+## v0.6.2 (2024-08-08)
+
+### Refactor
+
+- update method for returning a package or struct from the associated receivers
+
 ## v0.6.1 (2024-08-08)
 
 ### Fix
