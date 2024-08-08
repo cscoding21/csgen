@@ -410,6 +410,7 @@ func LoadModule(cfg *packages.Config) (Module, error) {
 
 	for _, pkg := range pkgs {
 		outPackage := Package{
+			ID:      pkg.ID,
 			Name:    pkg.Name,
 			Path:    pkg.PkgPath,
 			Files:   pkg.GoFiles,

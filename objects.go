@@ -11,6 +11,7 @@ type Module struct {
 
 // Package represents an object graph for an entire package
 type Package struct {
+	ID      string
 	Name    string
 	Path    string
 	Files   []string
