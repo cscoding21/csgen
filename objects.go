@@ -55,11 +55,21 @@ type Interface struct {
 	IsPublic bool
 }
 
+func (m *Module) GetPackage(name string) *Package {
+	for i, p := range m.Packages {
+		if strings.EqualFold(p.Name, name) || strings.EqualFold(p.ID, name) {
+			return &m.Packages[i]
+		}
+	}
+
+	return nil
+}
+
 // GetStruct return a struct with the name that matches the argument
 func (p *Package) GetStruct(name string) *Struct {
-	for _, s := range p.Structs {
+	for i, s := range p.Structs {
 		if strings.EqualFold(s.Name, name) {
-			return &s
+			return &p.Structs[i]
 		}
 	}
 
