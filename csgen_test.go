@@ -290,7 +290,7 @@ func TestGetStructFieldsWithEmbedded(t *testing.T) {
 func TestLoadModule(t *testing.T) {
 	cfg := GetDefaultPackageConfig()
 	cfg.Tests = true
-	module, err := LoadModule(cfg)
+	module, err := LoadModule(cfg, "file=objects.go", "file=tmp/tmp.go")
 
 	if err != nil {
 		t.Error(err)

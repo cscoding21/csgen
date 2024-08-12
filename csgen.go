@@ -390,7 +390,7 @@ func GetDefaultPackageConfig() *packages.Config {
 }
 
 // LoadModule use the "packages" package to load codebase items
-func LoadModule(cfg *packages.Config) (Module, error) {
+func LoadModule(cfg *packages.Config, pattern ...string) (Module, error) {
 	module := Module{}
 	cwd, err := os.Getwd()
 	if err != nil {
@@ -398,8 +398,12 @@ func LoadModule(cfg *packages.Config) (Module, error) {
 	}
 
 	module.Path = cwd
+	// ---TODO: do I need to handle pattern in any way?
+	// if len(pattern) == 0 {
+	// 	pattern = append(pattern, cwd)
+	// }
 
-	pkgs, err := packages.Load(cfg, cwd)
+	pkgs, err := packages.Load(cfg, pattern...)
 	if err != nil {
 		return module, err
 	}
@@ -410,11 +414,12 @@ func LoadModule(cfg *packages.Config) (Module, error) {
 
 	for _, pkg := range pkgs {
 		outPackage := Package{
-			ID:      pkg.ID,
-			Name:    pkg.Name,
-			Path:    pkg.PkgPath,
-			Files:   pkg.GoFiles,
-			Structs: []Struct{},
+			ID:       pkg.ID,
+			Name:     pkg.Name,
+			FullName: pkg.PkgPath,
+			Path:     pkg.PkgPath,
+			Files:    pkg.GoFiles,
+			Structs:  []Struct{},
 		}
 
 		if len(module.Name) == 0 {
@@ -434,7 +439,7 @@ func LoadModule(cfg *packages.Config) (Module, error) {
 				if !ok {
 					continue
 				}
-				fmt.Printf("Struct: %s - %s\n", obj.Name(), st.String())
+				// fmt.Printf("Struct: %s - %s\n", obj.Name(), st.String())
 
 				outStruct := Struct{
 					Name:    obj.Name(),

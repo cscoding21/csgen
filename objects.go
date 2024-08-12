@@ -11,11 +11,12 @@ type Module struct {
 
 // Package represents an object graph for an entire package
 type Package struct {
-	ID      string
-	Name    string
-	Path    string
-	Files   []string
-	Structs []Struct
+	ID       string
+	Name     string
+	FullName string
+	Path     string
+	Files    []string
+	Structs  []Struct
 }
 
 // Struct a struct that abstracts a golang struct
@@ -55,6 +56,7 @@ type Interface struct {
 	IsPublic bool
 }
 
+// GetPackage return a package from a module based on its name
 func (m *Module) GetPackage(name string) *Package {
 	for i, p := range m.Packages {
 		if strings.EqualFold(p.Name, name) || strings.EqualFold(p.ID, name) {
