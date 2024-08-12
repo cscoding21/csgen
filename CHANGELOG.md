@@ -1,3 +1,9 @@
+## v0.6.3 (2024-08-12)
+
+### Fix
+
+- updated loadmodule function to accept parameters
+
 ## v0.6.2 (2024-08-08)
 
 ### Refactor
