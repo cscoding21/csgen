@@ -1,3 +1,9 @@
+## v0.6.4 (2024-08-12)
+
+### Fix
+
+- added nil handling for module name inference
+
 ## v0.6.3 (2024-08-12)
 
 ### Fix
