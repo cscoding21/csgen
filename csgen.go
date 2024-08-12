@@ -391,7 +391,7 @@ func GetDefaultPackageConfig() *packages.Config {
 
 // LoadModule use the "packages" package to load codebase items
 func LoadModule(cfg *packages.Config, pattern ...string) (Module, error) {
-	module := Module{}
+	module := Module{Name: ""}
 	cwd, err := os.Getwd()
 	if err != nil {
 		return module, err
@@ -423,7 +423,9 @@ func LoadModule(cfg *packages.Config, pattern ...string) (Module, error) {
 		}
 
 		if len(module.Name) == 0 {
-			module.Name = pkg.Module.Path
+			if pkg != nil && pkg.Module != nil {
+				module.Name = pkg.Module.Path
+			}
 		}
 
 		// qual := types.RelativeTo(pkg.Types)
