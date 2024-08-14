@@ -1,3 +1,9 @@
+## v0.6.7 (2024-08-14)
+
+### Fix
+
+- update CLA handler replacement with struct package
+
 ## v0.6.6 (2024-08-14)
 
 ### Fix
