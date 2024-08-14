@@ -216,7 +216,7 @@ func TestHanddleCLA(t *testing.T) {
 	}{
 		{ok: true, have: "command-line-arguments.Location", alt: "tmp", want: "tmp.Location"},
 		{ok: true, have: "command-line-arguments", alt: "tmp", want: "tmp"},
-		{ok: true, have: "command-line-arguments.Location", alt: "", want: ".Location"},
+		{ok: true, have: "command-line-arguments.Location", alt: "", want: "Location"},
 		{ok: true, have: "command-line-arguments", alt: "", want: ""},
 	}
 
