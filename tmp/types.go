@@ -8,3 +8,8 @@ type EmbedMe struct {
 	Field2 string
 	Field3 float32
 }
+
+type Location struct {
+	Lat float32
+	Lon float32
+}

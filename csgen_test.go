@@ -285,6 +285,33 @@ func TestGetStructFieldsWithEmbedded(t *testing.T) {
 	}
 }
 
+func TestGetCleanedType(t *testing.T) {
+	testData := []struct {
+		ok   bool
+		have string
+		want string
+	}{
+		{ok: true, have: "github.com/cscoding21/csgen/tmp.Location", want: "tmp.Location"},
+	}
+
+	for _, td := range testData {
+		field := Field{
+			Name:        "Field",
+			Type:        td.have,
+			IsPrimitive: false,
+			IsPointer:   false,
+			IsSlice:     false,
+			IsPublic:    true,
+		}
+
+		ct := field.GetCleanedType()
+
+		if !strings.EqualFold(ct, td.want) {
+			t.Errorf("unexpected value: have %s - want %s", ct, td.want)
+		}
+	}
+}
+
 //----------------------------------------------------------------------------------
 
 func TestLoadModule(t *testing.T) {

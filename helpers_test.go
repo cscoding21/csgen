@@ -1,6 +1,7 @@
 package csgen
 
 import (
+	"strings"
 	"testing"
 )
 
@@ -202,6 +203,28 @@ func TestInferPackageFromOutputPath(t *testing.T) {
 	for _, input := range testData {
 		if InferPackageFromOutputPath(input.have) != input.want {
 			t.Errorf("expected %s...got %s", input.want, InferPackageFromOutputPath(input.have))
+		}
+	}
+}
+
+func TestHanddleCLA(t *testing.T) {
+	testData := []struct {
+		ok   bool
+		have string
+		alt  string
+		want string
+	}{
+		{ok: true, have: "command-line-arguments.Location", alt: "tmp", want: "tmp.Location"},
+		{ok: true, have: "command-line-arguments", alt: "tmp", want: "tmp"},
+		{ok: true, have: "command-line-arguments.Location", alt: "", want: ".Location"},
+		{ok: true, have: "command-line-arguments", alt: "", want: ""},
+	}
+
+	for _, td := range testData {
+		test := HandleCLA(td.have, td.alt)
+
+		if !strings.EqualFold(test, td.want) {
+			t.Errorf("unexpected value: have %s - want %s", test, td.want)
 		}
 	}
 }

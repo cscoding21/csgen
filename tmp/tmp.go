@@ -11,8 +11,9 @@ func DoAThing() {
 
 // DoType a struct for testing
 type DoType struct {
-	Do   bool
-	What string
+	Do       bool
+	What     string
+	Location Location
 
 	EmbedMe
 }

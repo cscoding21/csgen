@@ -141,3 +141,16 @@ func InferPackageFromOutputPath(outPath string) string {
 
 	return dir
 }
+
+// HandleCLA the packages package has some weird behavior with a magic string called "command-line-arguments".  will handle thosee cases here
+func HandleCLA(input string, alt string) string {
+	//---this is goofy behavior in the packages package :/
+	// https://cs.opensource.google/go/x/tools/+/master:go/packages/golist.go?q=command-line&ss=go%2Fx%2Ftools:go%2Fpackages%2F
+
+	badString := "command-line-arguments"
+	if strings.Contains(input, badString) {
+		return strings.Replace(input, badString, alt, -1)
+	}
+
+	return input
+}

@@ -1,6 +1,10 @@
 package csgen
 
-import "strings"
+import (
+	"fmt"
+	"regexp"
+	"strings"
+)
 
 // Module represents an object graph for the entire codebase
 type Module struct {
@@ -106,6 +110,22 @@ func (s *Field) GetTag(name string) string {
 	}
 
 	return ""
+}
+
+// GetCleanedType return a cleaned version of the type in case it includes a fully qualified namespace
+func (f *Field) GetCleanedType() string {
+	if strings.Contains(f.Type, "/") {
+		re := regexp.MustCompile(`[\w-\.]`)
+		ta := strings.Split(f.Type, "/")
+
+		nakedType := ta[len(ta)-1]
+
+		indicator := re.ReplaceAllString(ta[0], "")
+
+		return fmt.Sprintf("%s%s", indicator, nakedType)
+	}
+
+	return f.Type
 }
 
 // GetField return a field object of a struct by its name

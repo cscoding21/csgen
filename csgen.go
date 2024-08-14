@@ -398,11 +398,6 @@ func LoadModule(cfg *packages.Config, pattern ...string) (Module, error) {
 	}
 
 	module.Path = cwd
-	// ---TODO: do I need to handle pattern in any way?
-	// if len(pattern) == 0 {
-	// 	pattern = append(pattern, cwd)
-	// }
-
 	pkgs, err := packages.Load(cfg, pattern...)
 	if err != nil {
 		return module, err
@@ -445,7 +440,7 @@ func LoadModule(cfg *packages.Config, pattern ...string) (Module, error) {
 
 				outStruct := Struct{
 					Name:    obj.Name(),
-					Type:    obj.Type().String(),
+					Type:    HandleCLA(obj.Type().String(), obj.Name()),
 					Package: pkg.Name,
 					Fields:  []Field{},
 				}
@@ -460,7 +455,7 @@ func LoadModule(cfg *packages.Config, pattern ...string) (Module, error) {
 
 						for x := 0; x < ist.NumFields(); x++ {
 							thisField := ist.Field(x)
-							ft := thisField.Type().String()
+							ft := HandleCLA(thisField.Type().String(), outStruct.Name)
 
 							outField := Field{
 								Name:        thisField.Name(),
@@ -475,7 +470,7 @@ func LoadModule(cfg *packages.Config, pattern ...string) (Module, error) {
 							outStruct.EmbeddedFields = append(outStruct.EmbeddedFields, outField)
 						}
 					} else {
-						ft := f.Type().String()
+						ft := HandleCLA(f.Type().String(), outStruct.Name)
 						outField := Field{
 							Name:        f.Name(),
 							Type:        ft,
