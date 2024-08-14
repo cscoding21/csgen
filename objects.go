@@ -130,7 +130,8 @@ func (f *Field) GetCleanedType() string {
 
 // GetField return a field object of a struct by its name
 func (s *Struct) GetField(name string) *Field {
-	for _, f := range s.Fields {
+	fields := s.AllFields()
+	for _, f := range fields {
 		if f.Name == name {
 			return &f
 		}
