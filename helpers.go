@@ -149,7 +149,7 @@ func HandleCLA(input string, alt string) string {
 
 	badString := "command-line-arguments"
 	if strings.Contains(input, badString) {
-		return strings.Replace(input, badString, alt, -1)
+		return strings.Trim(strings.Replace(input, badString, alt, -1), ".")
 	}
 
 	return input

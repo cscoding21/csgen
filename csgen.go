@@ -426,6 +426,7 @@ func LoadModule(cfg *packages.Config, pattern ...string) (Module, error) {
 		// qual := types.RelativeTo(pkg.Types)
 		scope := pkg.Types.Scope()
 		for _, name := range scope.Names() {
+
 			obj := scope.Lookup(name)
 			if obj != nil && obj.Type() != nil && obj.Type().Underlying() != nil {
 				// obj is types.Named,
@@ -437,13 +438,16 @@ func LoadModule(cfg *packages.Config, pattern ...string) (Module, error) {
 					continue
 				}
 				// fmt.Printf("Struct: %s - %s\n", obj.Name(), st.String())
+				fmt.Println("-------------------------------------------")
 
 				outStruct := Struct{
 					Name:    obj.Name(),
-					Type:    HandleCLA(obj.Type().String(), obj.Name()),
+					Type:    HandleCLA(obj.Type().String(), pkg.Name),
 					Package: pkg.Name,
 					Fields:  []Field{},
 				}
+
+				fmt.Printf("Struct: %s - %s\n", outStruct.Name, outStruct.Type)
 
 				for i := 0; i < st.NumFields(); i++ {
 					f := st.Field(i)
@@ -467,6 +471,8 @@ func LoadModule(cfg *packages.Config, pattern ...string) (Module, error) {
 								IsPublic:    IsPublic(thisField.Name()),
 							}
 
+							fmt.Printf("-- Embedded Field: %s - %s : %s\n", outField.Name, outField.Type, outField.GetCleanedType())
+
 							outStruct.EmbeddedFields = append(outStruct.EmbeddedFields, outField)
 						}
 					} else {
@@ -480,6 +486,8 @@ func LoadModule(cfg *packages.Config, pattern ...string) (Module, error) {
 							IsSlice:     IsSlice(ft),
 							IsPublic:    IsPublic(f.Name()),
 						}
+
+						fmt.Printf("-- Field: %s - %s - %s\n", outField.Name, outField.Type, outField.GetCleanedType())
 
 						outStruct.Fields = append(outStruct.Fields, outField)
 					}
