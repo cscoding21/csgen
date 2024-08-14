@@ -1,3 +1,9 @@
+## v0.6.8 (2024-08-14)
+
+### Fix
+
+- fix bug in GetFields receiver to include embedded fields
+
 ## v0.6.7 (2024-08-14)
 
 ### Fix
