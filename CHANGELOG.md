@@ -1,3 +1,9 @@
+## v0.6.5 (2024-08-13)
+
+### Fix
+
+- fix handling of command-line-arguments
+
 ## v0.6.4 (2024-08-12)
 
 ### Fix
