@@ -1,3 +1,9 @@
+## v0.6.6 (2024-08-14)
+
+### Fix
+
+- update default package when invalid one exists
+
 ## v0.6.5 (2024-08-13)
 
 ### Fix
