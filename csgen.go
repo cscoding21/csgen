@@ -447,7 +447,7 @@ func LoadModule(cfg *packages.Config, pattern ...string) (Module, error) {
 					Fields:  []Field{},
 				}
 
-				fmt.Printf("Struct: %s - %s\n", outStruct.Name, outStruct.Type)
+				fmt.Printf("Struct: %s - %s - %s\n", outStruct.Name, outStruct.Type, outStruct.Package)
 
 				for i := 0; i < st.NumFields(); i++ {
 					f := st.Field(i)
@@ -459,7 +459,7 @@ func LoadModule(cfg *packages.Config, pattern ...string) (Module, error) {
 
 						for x := 0; x < ist.NumFields(); x++ {
 							thisField := ist.Field(x)
-							ft := HandleCLA(thisField.Type().String(), outStruct.Name)
+							ft := HandleCLA(thisField.Type().String(), outStruct.Package)
 
 							outField := Field{
 								Name:        thisField.Name(),
@@ -476,7 +476,7 @@ func LoadModule(cfg *packages.Config, pattern ...string) (Module, error) {
 							outStruct.EmbeddedFields = append(outStruct.EmbeddedFields, outField)
 						}
 					} else {
-						ft := HandleCLA(f.Type().String(), outStruct.Name)
+						ft := HandleCLA(f.Type().String(), outStruct.Package)
 						outField := Field{
 							Name:        f.Name(),
 							Type:        ft,

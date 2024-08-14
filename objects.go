@@ -83,12 +83,12 @@ func (p *Package) GetStruct(name string) *Struct {
 }
 
 // GetTag returns a single tag value by name based on the standard format rules
-func (s *Field) GetTag(name string) string {
-	if len(s.TagString) == 0 || len(name) == 0 {
+func (f *Field) GetTag(name string) string {
+	if len(f.TagString) == 0 || len(name) == 0 {
 		return ""
 	}
 
-	tagString := strings.Trim(s.TagString, "`")
+	tagString := strings.Trim(f.TagString, "`")
 	if strings.HasPrefix(tagString, "\"") {
 		tagString = strings.Trim(tagString, "\"")
 	}
