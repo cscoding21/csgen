@@ -25,12 +25,12 @@ type Package struct {
 
 // Struct a struct that abstracts a golang struct
 type Struct struct {
-	Name           string
-	FilePath       string
-	Package        string
-	Type           string
-	Fields         []Field
-	EmbeddedFields []Field
+	Name            string
+	FilePath        string
+	Package         string
+	Type            string
+	Fields          []Field
+	EmbeddedStructs []Struct
 }
 
 // Field a struct that represents a single field within a struct abstraction
@@ -149,5 +149,12 @@ func (s *Struct) ContainsField(name string) bool {
 
 // AllFields return all fields and embedded fields
 func (s *Struct) AllFields() []Field {
-	return append(s.Fields, s.EmbeddedFields...)
+	out := []Field{}
+	out = append(out, s.Fields...)
+
+	for _, es := range s.EmbeddedStructs {
+		out = append(out, es.Fields...)
+	}
+
+	return out
 }

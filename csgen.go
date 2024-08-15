@@ -457,6 +457,12 @@ func LoadModule(cfg *packages.Config, pattern ...string) (Module, error) {
 							continue
 						}
 
+						embeddedStruct := Struct{
+							Name:    f.Name(),
+							Type:    f.Name(),
+							Package: f.Pkg().Name(),
+						}
+
 						for x := 0; x < ist.NumFields(); x++ {
 							thisField := ist.Field(x)
 							ft := HandleCLA(thisField.Type().String(), outStruct.Package)
@@ -473,8 +479,10 @@ func LoadModule(cfg *packages.Config, pattern ...string) (Module, error) {
 
 							fmt.Printf("-- Embedded Field: %s - %s : %s\n", outField.Name, outField.Type, outField.GetCleanedType())
 
-							outStruct.EmbeddedFields = append(outStruct.EmbeddedFields, outField)
+							embeddedStruct.Fields = append(embeddedStruct.Fields, outField)
 						}
+
+						outStruct.EmbeddedStructs = append(outStruct.EmbeddedStructs, embeddedStruct)
 					} else {
 						ft := HandleCLA(f.Type().String(), outStruct.Package)
 						outField := Field{
