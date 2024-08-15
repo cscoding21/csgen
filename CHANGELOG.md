@@ -1,3 +1,9 @@
+## v0.6.9 (2024-08-15)
+
+### Fix
+
+- change struct object to store embedded fields as structs
+
 ## v0.6.8 (2024-08-14)
 
 ### Fix
