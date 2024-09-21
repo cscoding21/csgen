@@ -2,6 +2,8 @@ package tmp
 
 import (
 	"fmt"
+
+	"github.com/cscoding21/csgen/tests/common"
 )
 
 // DoAThing a function for testing
@@ -16,4 +18,5 @@ type DoType struct {
 	Location Location
 
 	EmbedMe
+	common.ControlFields
 }

@@ -317,7 +317,7 @@ func TestGetCleanedType(t *testing.T) {
 func TestLoadModule(t *testing.T) {
 	cfg := GetDefaultPackageConfig()
 	cfg.Tests = true
-	module, err := LoadModule(cfg, "file=objects.go", "file=tests/tmp/tmp.go")
+	module, err := LoadModule(cfg, "file=objects.go", "file=tests/tmp/tmp.go", "file=tests/common/cf.go")
 
 	if err != nil {
 		t.Error(err)
